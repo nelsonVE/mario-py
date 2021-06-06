@@ -36,7 +36,7 @@ while run:
     clock.tick(fps)
     screen.fill((102, 204, 255))
 
-    draw_grid()
+    #draw_grid()
 
     world.draw()
     player.update()

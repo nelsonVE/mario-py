@@ -64,4 +64,4 @@ class Koopa(Entity):
         self.rect.y += self.dy
 
         self.screen.blit(self.image, self.rect)
-        pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 2)
+        #pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 2)
