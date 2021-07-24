@@ -9,6 +9,7 @@ class World():
         self.screen = screen
         row_count = 0
         self.sprite_group = pygame.sprite.Group()
+        self.move = False
 
         for row in data:
             col_count = 0
@@ -34,6 +35,15 @@ class World():
             row_count += 1
 
     def draw(self):
-        for tile in self.tile_list:
-            self.screen.blit(*tile)
-            #pygame.draw.rect(self.screen, (0, 255, 0), tile[1], 2)
+        if self.move:
+            for spr in self.sprite_group:
+                spr.rect.move_ip(-6, 0)
+
+        pygame.sprite.Group.draw(self.sprite_group, self.screen)
+
+    def move_world(self, move):
+        self.move = move
+
+    def is_moving(self):
+        print('moving: ', self.move)
+        return self.move

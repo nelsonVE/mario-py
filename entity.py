@@ -8,6 +8,7 @@ class Entity:
 
     DIRECTION_LEFT = 'left'
     DIRECTION_RIGHT = 'right'
+    VELOCITY_X = 4
 
     def __init__(self, x, y, screen, world):
         self.animation = 0
@@ -30,3 +31,17 @@ class Entity:
         self.sprite.rect = self.rect
         self.sprite.rect.x = self.rect.x
         self.sprite.rect.y = self.rect.y
+
+    def get_vel_x(self):
+        velocity = self.VELOCITY_X
+        if self.world.is_moving():
+            velocity = 0
+        return velocity
+
+    def get_dx(self):
+        velocity = self.VELOCITY_X
+
+        if self.dx < 0 and not self.world.is_moving():
+            velocity *= -1
+
+        return velocity

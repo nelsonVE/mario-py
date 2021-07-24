@@ -14,7 +14,7 @@ class Collision:
                     player.jumping = False
                     player.falling = False
 
-            if tile[1].colliderect(player.rect.x + player.dx, player.rect.y, player_width, player_height):
+            if tile[1].colliderect(player.rect.x + player.get_dx(), player.rect.y, player_width, player_height):
                 player.dx = 0
 
     def enemy(self, enemy, player, world):
@@ -30,7 +30,7 @@ class Collision:
                     enemy.dy = tile[1].top - enemy.rect.bottom
                     enemy.vel_y = 0
 
-            if tile[1].colliderect(enemy.rect.x + enemy.dx, enemy.rect.y, enemy_width, enemy_height):
+            if tile[1].colliderect(enemy.rect.x + enemy.get_dx(), enemy.rect.y, enemy_width, enemy_height):
                 enemy.direction = enemy.DIRECTION_RIGHT if enemy.direction == enemy.DIRECTION_LEFT else enemy.DIRECTION_LEFT
                 enemy.dx = 0
 

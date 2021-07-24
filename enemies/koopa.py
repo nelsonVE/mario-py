@@ -11,6 +11,8 @@ enemy_sprites = {
 
 
 class Koopa(Entity):
+    VELOCITY_X = 2
+
     def __init__(self, x, y, screen, world, player):
         super().__init__(x, y, screen, world)
         self.images_left = [pygame.image.frombuffer(*tiles.get_tile(3, *enemy_sprites.get(index)[0], *enemy_sprites.get(index)[1])) for index in range(0, 2)]
@@ -44,14 +46,14 @@ class Koopa(Entity):
             self.falling = True
 
         if self.direction == self.DIRECTION_RIGHT:
-            self.dx += 2
+            self.dx += self.get_vel_x()
 
             if self.counter >= 8:
                 self.animation = 0 if self.animation == 1 else 1
                 self.image = pygame.transform.scale(self.images_right[self.animation], enemy_sprites.get(self.animation)[1])
                 self.counter = 0
         elif self.direction == self.DIRECTION_LEFT:
-            self.dx -= 2
+            self.dx -= 2 if not self.world.is_moving() else 6
 
             if self.counter >= 8:
                 self.animation = 0 if self.animation == 1 else 1

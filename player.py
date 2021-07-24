@@ -11,6 +11,7 @@ player_tiles = {
 }
 
 class Player(Entity):
+    VELOCITY_X = 4
     def __init__(self, x, y, screen, world):
         super().__init__(x, y, screen, world)
         self.images_left = [pygame.image.frombuffer(*tiles.get_tile(2, *player_tiles.get(index)[0], *player_tiles.get(index)[1])) for index in range(0, 2)]
@@ -29,8 +30,6 @@ class Player(Entity):
         self.dx = 0
         self.dy = 0
         self.counter += 1
-        actual_width = self.image.get_width()
-        actual_height = self.image.get_height()
         self.generate_sprite()
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -51,7 +50,8 @@ class Player(Entity):
                     self.counter = 0
 
             if key[pygame.K_d]:
-                self.dx += 4
+                self.dx += self.get_vel_x()
+                
                 self.old_direction = pygame.K_d
                 if self.counter >= 8:
                     self.animation = 0 if self.animation == 1 else 1
@@ -79,9 +79,21 @@ class Player(Entity):
                     self.image = pygame.transform.scale(self.images_left[self.animation], player_tiles.get(self.animation)[1])
 
             self.collision.detect(self, self.world)
+
         self.vel_y += 1 if self.vel_y < 10 else 0
         self.rect.x += self.dx
         self.rect.y += self.dy
+        print(any(key))
+        self.world.move_world(self.rect.x >= constants.MID_WIDTH and any(key) and self.old_direction == pygame.K_d)
 
         self.screen.blit(self.image, self.rect)
         #pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 2)
+
+    def get_dx(self):
+        velocity = self.VELOCITY_X
+
+        if self.dx < 0 and not self.world.is_moving():
+            velocity *= -1
+
+        return velocity
+
